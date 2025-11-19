@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HP BATS - Checkout</title>
+<style>
+    body {
+        font-family: Arial;
+        background: linear-gradient(120deg, #000428, #004e92, #001e4d);
+        background-size: 300% 300%;
+        animation: moveBG 12s ease infinite;
+        color: white;
+        text-align: center;
+        padding: 30px;
+    }
+
+    @keyframes moveBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .checkout-container {
+        max-width: 650px;
+        margin: auto;
+    }
+
+    .cart-summary, form {
+        background: rgba(255,255,255,0.1);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .cart-item a {
+        color: yellow;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .cart-item a:hover {
+        color: white;
+    }
+
+    .total {
+        font-weight: bold;
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 6px;
+        border: none;
+    }
+
+    button {
+        padding: 12px 20px;
+        background: yellow;
+        color: black;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover { background: white; }
+
+    h1 { color: yellow; margin-bottom: 20px; }
+
+    #payment-error { color: red; display: none; font-size:14px; margin-bottom:10px; }
+</style>
+</head>
+<body>
+
+<h1>Checkout</h1>
+<div class="checkout-container">
+
+    <!-- Cart Summary -->
+    <div class="cart-summary">
+        <h3>Order Summary</h3>
+        <div id="cart-items"></div>
+        <div class="total" id="total-price"></div>
+    </div>
+
+    <!-- Checkout Form -->
+    <form id="checkout-form">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
+        <input type="text" id="upi" placeholder="UPI Transaction ID" required>
+        <input type="file" id="payment-screenshot" accept="image/*" required>
+        <textarea id="address" placeholder="Shipping Address" rows="4" required></textarea>
+
+        <select id="payment" required>
+            <option value="">Select Payment Method</option>
+            <option value="PhonePe">PhonePe</option>
+            <option value="GPay">GPay</option>
+        </select>
+        <div id="payment-error">Please select a payment method.</div>
+
+        <button type="submit">Place Order</button>
+    </form>
+
+</div>
+
+<script>
+    const whatsappNumber = "917695808704"; // Replace with your WhatsApp number
+
+    // Map product names to product page URLs
+    const productLinks = {
+        "HP Bat - Classic": "Bat1.html",
+        "HP Bat - Pro": "Bat2.html",
+        "HP Bat - Elite": "Bat3.html"
+        // Add more products if needed
+    };
+
+    // Load cart
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItemsDiv = document.getElementById('cart-items');
+    const totalPriceDiv = document.getElementById('total-price');
+
+    function renderCartSummary() {
+        cartItemsDiv.innerHTML = '';
+        let total = 0;
+        if(cart.length === 0){
+            cartItemsDiv.innerHTML = "<p>Your cart is empty.</p>";
+            totalPriceDiv.innerHTML = '';
+        } else {
+            cart.forEach(item => {
+                const link = productLinks[item.name] ? productLinks[item.name] : "#";
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `<a href="${link}" target="_blank">${item.name}</a> <span>₹${item.price}</span>`;
+                cartItemsDiv.appendChild(div);
+                total += parseFloat(item.price);
+            });
+            totalPriceDiv.innerHTML = `Total: ₹${total}`;
+        }
+    }
+
+    renderCartSummary();
+
+    // Checkout form submit
+    const form = document.getElementById('checkout-form');
+    form.addEventListener('submit', async function(e){
+        e.preventDefault();
+
+        if(cart.length === 0){
+            alert("Your cart is empty!");
+            return;
+        }
+
+        const paymentMethod = document.getElementById('payment').value;
+        const paymentError = document.getElementById('payment-error');
+        if(!paymentMethod){
+            paymentError.style.display = 'block';
+            document.getElementById('payment').style.border = '2px solid red';
+            return;
+        } else {
+            paymentError.style.display = 'none';
+            document.getElementById('payment').style.border = 'none';
+        }
+
+        const orderData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            upi: document.getElementById('upi').value,
+            address: document.getElementById('address').value,
+            payment: paymentMethod,
+            products: cart.map(i => i.name + " x1").join(", "),
+            total: cart.reduce((sum,item)=>sum+parseFloat(item.price),0)
+        };
+
+        const screenshotInput = document.getElementById('payment-screenshot');
+        if(screenshotInput.files.length === 0){
+            alert("Please upload your payment screenshot!");
+            return;
+        }
+
+        const screenshotFile = screenshotInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(){
+            const imageBase64 = reader.result;
+
+            // WhatsApp message
+            const message = `New Order from HP BATS:\n\nName: ${orderData.name}\nEmail: ${orderData.email}\nPhone: ${orderData.phone}\nAddress: ${orderData.address}\nUPI Txn ID: ${orderData.upi}\nPayment Method: ${orderData.payment}\nProducts: ${orderData.products}\nTotal: ₹${orderData.total}\n\nPayment Screenshot attached (open on PC/Mobile).`;
+
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const whatsappURL = isMobile 
+                ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}` 
+                : `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
+
+            window.open(whatsappURL, "_blank");
+            alert(`Hi ${orderData.name}, your order details are ready to send via WhatsApp. Please attach the screenshot manually.`);
+
+            localStorage.removeItem('cart'); // clear cart
+            window.location.href = "index.html"; // redirect home
+        }
+        reader.readAsDataURL(screenshotFile);
+    });
+</script>
+
+</body>
+</html>

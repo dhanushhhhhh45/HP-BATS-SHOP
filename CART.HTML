@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HP BATS - Cart</title>
+
+<style>
+    body { 
+        font-family: Arial; 
+        background: linear-gradient(to bottom, #000428, #004e92); 
+        color: white; 
+        text-align: center; 
+        padding: 30px; 
+    }
+
+    h1 {
+        font-size: 40px;
+        color: yellow;
+        margin-bottom: 30px;
+        text-shadow: 0 0 10px yellow;
+    }
+
+    #cart-list {
+        width: 90%;
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .cart-item { 
+        background: rgba(255,255,255,0.12); 
+        margin: 10px auto; 
+        padding: 15px; 
+        border-radius: 10px; 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center;
+        font-size: 18px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .cart-item button { 
+        padding: 7px 10px; 
+        border: none; 
+        border-radius: 6px; 
+        background: red; 
+        color: white; 
+        cursor: pointer; 
+        font-weight: bold;
+    }
+
+    .cart-item button:hover { 
+        transform: scale(1.1);
+    }
+
+    #clear-cart {
+        background: #ff4444;
+        font-size: 19px;
+        padding: 10px 25px;
+        color: white;
+        border-radius: 10px;
+        font-weight: bold;
+        margin-top: 20px;
+        cursor: pointer;
+        box-shadow: 0 0 12px #ff4444;
+        transition: .3s;
+        border: none;
+    }
+
+    #clear-cart:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 18px white;
+    }
+
+    .payment-methods { 
+        width: 95%;
+        max-width: 450px;
+        margin: 30px auto;
+        background: rgba(255,255,255,0.15);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 0 18px rgba(0,0,0,0.4);
+    }
+
+    .payment-methods h3 { 
+        color: yellow; 
+        margin-bottom: 10px; 
+        font-size: 28px;
+        text-shadow: 0 0 8px yellow;
+    }
+
+    .payment-logo {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin: 8px;
+        cursor: pointer;
+        transition: .3s;
+    }
+
+    .payment-logo:hover {
+        transform: scale(1.12);
+    }
+
+    #checkout-btn, .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 25px;
+        background: yellow;
+        color: black;
+        border-radius: 10px;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 18px;
+        box-shadow: 0 0 10px yellow;
+        transition: .3s;
+    }
+
+    #checkout-btn:hover, .back-btn:hover {
+        transform: scale(1.08);
+        background: white;
+    }
+
+    .back-btn {
+        margin-top: 30px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Your Cart</h1>
+
+<div id="cart-list"></div>
+
+<button id="clear-cart">Clear Cart</button>
+
+<div class="payment-methods">
+    <h3>Payment Methods</h3>
+    <p>We accept:</p>
+
+    <!-- Replace href links with your UPI/payment links -->
+    <a href="upi://pay?pa=your-gpay-upi-id@ok&pn=HP%20BATS&am=0" target="_blank">
+        <img src="gpay.png" class="payment-logo" alt="Google Pay">
+    </a>
+    <a href="upi://pay?pa=your-phonepe-upi-id@ok&pn=HP%20BATS&am=0" target="_blank">
+        <img src="phonepe.png" class="payment-logo" alt="PhonePe">
+    </a>
+
+    <br>
+    <a href="checkout.html" id="checkout-btn">Proceed to Checkout</a>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+const cartList = document.getElementById('cart-list');
+
+function renderCart() {
+    cartList.innerHTML = '';
+
+    if(cart.length === 0){
+        cartList.innerHTML = "<p style='font-size:22px;'>Your cart is empty.</p>";
+    } else {
+        cart.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'cart-item';
+            div.innerHTML = `
+                <span>${item.name} - ₹${item.price}</span>
+                <button onclick="removeItem(${index})">Remove</button>
+            `;
+            cartList.appendChild(div);
+        });
+    }
+}
+
+function removeItem(index) {
+    cart.splice(index,1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+}
+
+document.getElementById('clear-cart').addEventListener('click', ()=>{
+    cart = [];
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+});
+
+renderCart();
+</script>
+
+<a href="products.html" class="back-btn">← Back to Products</a>
+
+</body>
+</html>
+           

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HP BATS - Products</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(120deg, #000428, #004e92, #001e4d);
+        background-size: 300% 300%;
+        animation: moveBG 12s ease infinite;
+        color: white;
+        text-align: center;
+        padding: 30px;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    @keyframes moveBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+        font-size: 50px;
+        animation: floatTitle 4s ease-in-out infinite;
+        margin-bottom: 20px;
+    }
+
+    @keyframes floatTitle {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0); }
+    }
+
+    .search-bar {
+        margin: 20px auto;
+        max-width: 500px;
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 15px rgba(255, 255, 0, 0.5);
+    }
+
+    .search-bar input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        font-size: 16px;
+        outline: none;
+    }
+
+    .search-bar button {
+        padding: 10px 20px;
+        background: yellow;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .search-bar button:hover { background: white; }
+
+    .products-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 20px;
+    }
+
+    .product {
+        background: rgba(255, 255, 255, 0.12);
+        padding: 15px;
+        border-radius: 14px;
+        width: 260px;
+        text-align: center;
+        backdrop-filter: blur(4px);
+        transform: translateY(40px);
+        opacity: 0;
+        animation: fadeUp 1s forwards;
+        transition: transform 0.3s, box-shadow 0.3s;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .product:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 25px yellow;
+    }
+
+    .product img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: 0.4s;
+    }
+
+    .product img:hover {
+        transform: scale(1.08) rotate(-2deg);
+    }
+
+    .badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: yellow;
+        color: black;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 12px;
+    }
+
+    .product h3 { margin: 10px 0 5px 0; }
+    .price { font-weight: bold; color: yellow; font-size: 18px; margin: 5px 0; }
+
+    button.add-to-cart {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: yellow;
+        color: black;
+        margin-top: 10px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    button.add-to-cart:hover {
+        background: white;
+        transform: scale(1.12) rotate(2deg);
+        box-shadow: 0 0 15px yellow;
+    }
+
+    .go-cart {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 25px;
+        background: yellow;
+        color: black;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .go-cart:hover {
+        background: white;
+        transform: scale(1.12);
+        box-shadow: 0 0 20px yellow;
+    }
+
+    /* Home Icon */
+    .home-icon {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        cursor: pointer;
+        transition: 0.3s;
+        z-index: 100;
+    }
+
+    .home-icon:hover { transform: scale(1.1); }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- Home Icon -->
+<a href="index.html"><img src="home.png" alt="Home" class="home-icon"></a>
+
+<h1>Our Products</h1>
+
+<div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search for a bat...">
+    <button onclick="searchProducts()">Search</button>
+</div>
+
+<div class="products-container" id="productsContainer">
+
+    <div class="product" data-video="https://www.instagram.com/reel/PRODUCT_VIDEO_1">
+        <div class="badge">Best Seller</div>
+        <img src="goat 2.0.jpeg" alt="GOAT 2.0">
+        <h3>GOAT 2.0</h3>
+        <p>TOP QUALITY OF OUR SHOP</p>
+        <div class="price">₹4000</div>
+        <button class="add-to-cart" data-name="GOAT 2.0" data-price="4000">Add to Cart</button>
+    </div>
+
+    <div class="product" data-video="https://www.instagram.com/reel/PRODUCT_VIDEO_2">
+        <div class="badge">New</div>
+        <img src="goat.jpeg" alt="GOAT">
+        <h3>GOAT</h3>
+        <p>High-quality professional bat for competitive players.</p>
+        <div class="price">₹3500</div>
+        <button class="add-to-cart" data-name="GOAT" data-price="3500">Add to Cart</button>
+    </div>
+
+    <div class="product" data-video="https://www.instagram.com/reel/PRODUCT_VIDEO_3">
+        <img src="customize.jpeg" alt="CUSTOMIZE EDITION">
+        <h3>CUSTOMIZE EDITION</h3>
+        <p>Top-end bat made with premium willow for champions.</p>
+        <div class="price">₹3000</div>
+        <button class="add-to-cart" data-name="CUSTOMIZE EDITION" data-price="3000">Add to Cart</button>
+    </div>
+<div class="product" data-video="https://www.instagram.com/reel/DPBnYv0ia3Y/?igsh=aHZsdjBtN3ljbzVj">
+        <img src="soft ball.jpeg" alt="CUSTOMIZE EDITION">
+        <h3>SOFT BALL</h3>
+        <p>LESS WEIGHT SPECIALIST</p>
+        <div class="price">₹2000</div>
+        <button class="add-to-cart" data-name="SOFT BALL" data-price="2000">Add to Cart</button>
+    </div>
+    <div class="product" data-video="https://www.instagram.com/reel/DQtxavRCV01/?igsh=bDA2bmRveWVkeHho">
+        <img src="high quality gloves.jpeg" alt="CUSTOMIZE EDITION">
+        <h3>1ST QUALITY GLOVES</h3>
+        <p>WELL BALANCED</p>
+        <div class="price">₹700</div>
+        <button class="add-to-cart" data-name="1ST QUALITY GLOVES" data-price="700">Add to Cart</button>
+    </div>
+     <div class="product" data-video="https://www.instagram.com/reel/DQtxavRCV01/?igsh=bDA2bmRveWVkeHho">
+        <img src="quality gloves.jpeg" alt="CUSTOMIZE EDITION">
+        <h3>2ND QUALITY GLOVES</h3>
+        <p>WELL FIT</p>
+        <div class="price">₹500</div>
+        <button class="add-to-cart" data-name="2ND QUALITY GLOVES" data-price="500">Add to Cart</button>
+    </div>
+    
+</div>
+
+<a href="cart.html" class="go-cart">Go to Cart</a>
+
+<script>
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+const buttons = document.querySelectorAll('.add-to-cart');
+
+buttons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const name = button.dataset.name;
+        const price = button.dataset.price;
+        cart.push({name, price});
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert(name + " added to cart!");
+    });
+});
+
+const products = document.querySelectorAll('.product');
+products.forEach(prod => {
+    prod.addEventListener('click', () => {
+        const videoURL = prod.getAttribute('data-video');
+        if(videoURL) window.open(videoURL, "_blank");
+    });
+});
+
+function searchProducts() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const products = document.querySelectorAll('.product');
+    products.forEach(prod => {
+        const title = prod.querySelector('h3').innerText.toLowerCase();
+        prod.style.display = title.includes(input) ? 'block' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>

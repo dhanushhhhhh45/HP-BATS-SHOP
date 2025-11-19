@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HP BATS - Reviews</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial;
+        background: linear-gradient(120deg, #000428, #004e92, #001e4d);
+        background-size: 300% 300%;
+        animation: moveBG 12s ease infinite;
+        color: white;
+        text-align: center;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    @keyframes moveBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Floating background logo */
+    @keyframes floatBG {
+        0% { transform: translate(-50%, -50%) scale(1); opacity: 0.18; }
+        50% { transform: translate(-48%, -52%) scale(1.05); opacity: 0.23; }
+        100% { transform: translate(-50%, -50%) scale(1); opacity: 0.18; }
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 320px;
+        height: 320px;
+        background: url("logo.png") no-repeat center;
+        background-size: contain;
+        z-index: -1;
+        pointer-events: none;
+        animation: floatBG 6s ease-in-out infinite;
+    }
+
+    h1 { 
+        color: yellow; 
+        font-size: 50px;
+        margin-bottom: 20px;
+        animation: floatTitle 4s ease-in-out infinite;
+    }
+
+    @keyframes floatTitle {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
+        100% { transform: translateY(0); }
+    }
+
+    /* Home icon button */
+    .home-btn {
+        position: fixed;
+        top: 15px;
+        right: 20px;
+        background: yellow;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: black;
+        font-size: 24px;
+        font-weight: bold;
+        box-shadow: 0 0 12px yellow;
+        transition: 0.3s;
+        z-index: 100;
+    }
+
+    .home-btn:hover {
+        background: white;
+        transform: scale(1.12);
+        box-shadow: 0 0 18px yellow;
+    }
+
+    .review-form input, .review-form textarea {
+        width: 80%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border: none;
+        font-size: 16px;
+    }
+
+    .review-form button {
+        padding: 12px 20px;
+        background: yellow;
+        color: black;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 16px;
+    }
+
+    .review-form button:hover {
+        background: white;
+    }
+
+    .reviews-container {
+        margin-top: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+    }
+
+    .review-item {
+        background: rgba(255,255,255,0.1);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .review-item h4 {
+        margin: 0 0 5px 0;
+        color: yellow;
+    }
+
+</style>
+</head>
+<body>
+
+<!-- Home Button -->
+<a href="index.html" class="home-btn" title="Home">🏠</a>
+
+<h1>Customer Reviews</h1>
+
+<div class="review-form">
+    <input type="text" id="reviewer-name" placeholder="Your Name" required><br>
+    <textarea id="review-text" rows="4" placeholder="Your Review" required></textarea><br>
+    <button id="submit-review">Submit Review</button>
+</div>
+
+<div class="reviews-container" id="reviews-container">
+    <!-- Reviews will appear here -->
+</div>
+
+<script>
+    // Load reviews from localStorage
+    let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+
+    const reviewsContainer = document.getElementById('reviews-container');
+
+    function renderReviews() {
+        reviewsContainer.innerHTML = '';
+        if(reviews.length === 0){
+            reviewsContainer.innerHTML = "<p>No reviews yet. Be the first to review!</p>";
+        } else {
+            reviews.forEach(review => {
+                const div = document.createElement('div');
+                div.className = 'review-item';
+                div.innerHTML = `<h4>${review.name}</h4><p>${review.text}</p>`;
+                reviewsContainer.appendChild(div);
+            });
+        }
+    }
+
+    renderReviews();
+
+    // Add new review
+    document.getElementById('submit-review').addEventListener('click', function(){
+        const name = document.getElementById('reviewer-name').value.trim();
+        const text = document.getElementById('review-text').value.trim();
+
+        if(!name || !text){
+            alert("Please fill in both name and review!");
+            return;
+        }
+
+        const newReview = { name, text };
+        reviews.push(newReview);
+
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+
+        renderReviews();
+
+        // Clear inputs
+        document.getElementById('reviewer-name').value = '';
+        document.getElementById('review-text').value = '';
+    });
+</script>
+
+</body>
+</html>

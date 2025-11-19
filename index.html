@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HP BATS - Home</title>
+<style>
+/* Base Styles */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    background: radial-gradient(circle at top left, #0a1a2a, #0f2a4d, #002b3d);
+    background-size: 400% 400%;
+    animation: gradientBG 20s ease infinite;
+}
+
+/* Gradient Animation */
+@keyframes gradientBG {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+/* Navigation */
+nav {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(6px);
+    z-index: 10;
+}
+
+nav a {
+    margin: 0 25px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    position: relative;
+    transition: 0.3s;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background: #FFD700;
+    left: 0;
+    bottom: -5px;
+    transition: width 0.3s;
+}
+
+nav a:hover {
+    color: #FFD700;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    text-align: center;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    background: url("logo.png") no-repeat center;
+    background-size: contain;
+    opacity: 0.08;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.hero h1 {
+    font-size: 64px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 4px;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: floatText 4s ease-in-out infinite alternate;
+}
+
+.hero p {
+    font-size: 22px;
+    margin-top: 15px;
+    max-width: 700px;
+    color: #f0f0f0cc;
+}
+
+/* Button Container */
+.btn-container {
+    margin-top: 40px;
+}
+
+.btn {
+    display: inline-block;
+    margin: 12px;
+    padding: 16px 36px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+    background: #FFD700;
+    border-radius: 10px;
+    transition: 0.3s all;
+}
+
+.btn:hover {
+    background: #FFA500;
+    color: #fff;
+    transform: scale(1.08);
+    box-shadow: 0 8px 20px rgba(255,215,0,0.5);
+}
+
+/* Animations */
+@keyframes floatText {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Achievements Section */
+.achievements-section {
+    text-align: center;
+    margin: 80px auto 40px auto;
+    padding: 40px 20px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    max-width: 900px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(255,215,0,0.1);
+}
+
+.achievements-section h2 {
+    color: #FFD700;
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+.achievement-item {
+    margin: 15px 0;
+    font-size: 20px;
+    color: #fff;
+}
+
+/* Contact Section */
+.contact-section {
+    text-align: center;
+    margin: 40px auto;
+    padding: 40px 20px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    max-width: 700px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(255,215,0,0.1);
+}
+
+.contact-section h2 {
+    color: #FFD700;
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+.contact-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+    font-size: 20px;
+}
+
+.contact-item img.icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
+    filter: drop-shadow(0 0 8px #FFD700);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    background: rgba(0,0,0,0.3);
+    margin-top: 40px;
+}
+
+/* Thank You Text */
+.thank-you {
+    text-align: center;
+    margin: 40px 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFD700;
+    text-shadow: 0 0 12px #FFD700;
+}
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="achievements.html">Achievements</a>
+    <a href="cart.html">Cart</a>
+    <a href="review.html">Reviews</a>
+</nav>
+
+<div class="hero">
+    <h1>HP BATS</h1>
+    <p>Premium handmade cricket bats for champions. Quality you can trust, style you can show off.</p>
+    <div class="btn-container">
+        <a class="btn" href="products.html">View Products</a>
+        <a class="btn" href="cart.html">View Cart</a>
+        <a class="btn" href="review.html">Customer Reviews</a>
+        <a class="btn" href="achievements.html">Achievements</a>
+    </div>
+</div>
+
+
+
+<div class="contact-section">
+    <h2>Contact Us</h2>
+    <div class="contact-item">
+        <img src="wb.png" class="icon" alt="WhatsApp">
+        <span>+91 9344133772</span>
+    </div>
+    <div class="contact-item">
+        <a href="https://www.instagram.com/hp_bats" target="_blank">
+            <img src="insta.png" class="icon" alt="Instagram">
+        </a>
+        <span>@hp_bats</span>
+    </div>
+    <div class="contact-item">
+        <a href="https://www.youtube.com/@HPBATSSHOP" target="_blank">
+            <img src="youtube.png" class="icon" alt="YouTube">
+        </a>
+        <span>HPBATSSHOP</span>
+    </div>
+</div>
+
+<div class="thank-you">
+    Thank you for visiting us!
+</div>
+
+<footer>
+    © 2025 HP BATS • Always welcome your feedback!
+</footer>
+
+</body>
+</html>
